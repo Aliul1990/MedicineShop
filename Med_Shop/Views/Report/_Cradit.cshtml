@@ -1,0 +1,34 @@
+﻿<div class="row">
+    <div class="col">
+        <h2 class="d-flex justify-content-center">Credit</h2>
+        <table class="table table-bordered table-striped ">
+            <thead>
+                <tr>
+                    <th>Sl No</th>
+                    <th>Taka</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    int SlNo = 1;
+                    double total = 0;
+                }
+                @foreach (var item in ViewData["Bills"] as List<DrugHouse.Models.Bill>)
+                {
+                    <tr>
+                        <td>@SlNo</td>
+                        <td>@Html.DisplayFor(x => item.Amount)</td>
+                    </tr>
+                    SlNo += 1;
+                    total += item.Amount;
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td class="d-flex justify-content-end">Total =</td>
+                    <td>@total</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>

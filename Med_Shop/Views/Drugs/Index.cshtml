@@ -1,0 +1,137 @@
+﻿@model PaginatedList<DrugHouse.Models.Medicine>
+
+@{
+    ViewBag.Title = "Index";
+    int cp = Model.PageIndex;
+    int tp = Model.TotalPages;
+    var next = Model.NextPage ? "" : "disable";
+    var prev = Model.PreviousPage ? "" : "disable";
+    int i = (cp - 1) * ViewBag.pSize + 1;
+}
+
+<div class="row">
+    <div class="col">
+        @*<h2>Medicine List</h2>*@
+        <div class="row">
+            <div class="col-6">
+                <form asp-controller="Drugs" asp-action="Index" method="post">
+                    <div class="input-group col-8">
+                        <input type="text" class="form-control" placeholder="Search..." name="Text" />
+                        <button class="btn btn-outline-primary ml-1" title="Search" type="submit"><i class="bi bi-search"></i>Search</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-6 d-flex justify-content-end">
+                <a asp-action="Create" asp-controller="Drugs" title="Create New" class="btn btn-outline-primary"><i class="bi bi-plus"></i> ADD New</a>
+            </div>
+        </div>
+        <table class="table table-bordered table-striped table-sm">
+
+            <thead class="table-light   ">
+                <tr>
+                    Total @ViewBag.Count Data Found
+                </tr>
+                <tr>
+                    <th>Sl No</th>
+                    <th>
+                        <a asp-action="Index" asp-controller="Drugs" asp-route-ShortBy="@ViewBag.ShortNameParam" asp-route-Text="@ViewBag.sword" class="text-decoration-none fw-bold text-black">Medicine Name</a>
+                    </th>
+                    <th>
+                        <a asp-action="Index" asp-controller="Drugs" asp-route-ShortBy="@ViewBag.ShortGenParam" asp-route-Text="@ViewBag.sword" class="text-decoration-none fw-bold text-black">Generic</a>
+                    </th>
+                    <th>
+                        <a asp-action="Index" asp-controller="Drugs" asp-route-ShortBy="@ViewBag.ShortProvParam" asp-route-Text="@ViewBag.sword" class="text-decoration-none fw-bold text-black">Provider</a>
+                    </th>
+                    <th><h6 class="text-decoration-none mb-0 fw-bold text-black">Tread Price</h6></th>
+                    <th><h6 class="text-decoration-none mb-0 fw-bold text-black">MRP</h6></th>
+                    <th><h6 class="text-decoration-none mb-0 fw-bold text-black">Quantity</h6></th>
+                    <th><h6 class="text-decoration-none mb-0 fw-bold text-black">Stored Date</h6></th>
+                    <th><h6 class="text-decoration-none mb-0 fw-bold text-black">Expiration Date</h6></th>
+                    <th><h6 class="text-decoration-none mb-0 fw-bold text-black">Picture</h6></th>
+                    <th class="text-decoration-none mb-0 fw-bold text-black">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Select((x, i) => new { data = x, index = i + 1 }))
+                {
+                    var photopath = "~/Images/" + (item.data.PicturePath ?? "NoImage.jpg");
+
+                    <tr>
+                        <td>@i</td>
+                        <td>@Html.DisplayFor(x => item.data.MedicineName)</td>
+                        <td>@Html.DisplayFor(x => item.data.Generic.GenericName)</td>
+                        <td>@Html.DisplayFor(x => item.data.Provider.ProviderName)</td>
+                        <td>@Html.DisplayFor(x => item.data.TreadPrice)</td>
+                        <td>@Html.DisplayFor(x => item.data.MRP)</td>
+                        <td>@Html.DisplayFor(x => item.data.Quantity)</td>
+                        <td>@Html.DisplayFor(x => item.data.StoredDate)</td>
+                        <td>@Html.DisplayFor(x => item.data.ExpirationDate)</td>
+                        <td>
+                            <img src="@photopath" asp-append-version="true" height="60" width="50" />
+                        </td>
+                        <td>
+                            <a title="Edit this item" href="@Url.Action("Edit","Drugs",new { id=item.data.MedicineID})" class="btn btn-outline-success btn-sm rounded-circle"><i class="bi bi-pencil"></i></a>
+                            <a title="Delete this item" href="@Url.Action("Delete","Drugs",new { id=item.data.MedicineID})" class="btn btn-outline-danger btn-sm rounded-circle"><i class="bi bi-trash"></i></a>
+                        </td>
+                    </tr>
+                    i++;
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td>
+                        Page @(Model.TotalPages < Model.PageIndex ? 0 : Model.PageIndex)
+                        Outof @Model.TotalPages
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <ul class="pagination">
+            <li class="">
+                <a asp-action="Index" asp-route-page="1" class="btn btn-info">First</a>
+            </li>
+            <li class="page-item @prev">
+                <a asp-action="Index" asp-route-page="@(cp-1)" class="btn btn-success ml-1">Prev</a>
+            </li>
+            @for (int k = 1; k <= Model.TotalPages; k++)
+            {
+                if (k >= cp - 5 && k <= cp + 5)
+                {
+                    if (k == cp)
+                    {
+                        <li class="page-item @(k==cp?"active":"")">
+                            <a asp-action="Index" asp-route-page="@k" class="btn btn-warning ml-1">@k</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="page-item @(k==cp?"active":"")">
+                            <a asp-action="Index" asp-route-page="@k" class="btn btn-secondary ml-1">@k</a>
+                        </li>
+                    }
+                }
+            }
+            <li class="page-item @next">
+                <a asp-action="Index" asp-route-page="@(cp+1)" class="btn btn-success ml-1">Next</a>
+            </li>
+            <li class="">
+                <a asp-action="Index" asp-route-page="@Model.TotalPages" class="btn btn-info ml-1">Last</a>
+            </li>
+        </ul>
+    </div>
+</div>
+@section Scripts{
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script src="~/lib/ajax/jquery.unobtrusive-ajax.js"></script>
+    <script type="text/javascript">
+        $("#btnSubmit").click(function () {
+            $("input[type=text]").val('');
+
+        });
+        $("#txtid").click(function () {
+            $("#txtid").val('');
+        });
+    </script>
+}

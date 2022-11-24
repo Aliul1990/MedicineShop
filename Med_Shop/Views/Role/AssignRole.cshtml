@@ -1,0 +1,34 @@
+﻿@{
+    ViewData["Title"] = "AssignRole";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="alert alert-info ">Assign Role To User</h1>
+<div class="row">
+    <h4 class="text-primary text-center">@ViewBag.msg</h4>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AssignRole" asp-controller="Role" method="post">
+            <label>Users List</label>
+            <select name="userdata" class="form-control">
+                <option value="">-----Select User-----</option>
+                @foreach (var item in ViewBag.users)
+                {
+                    <option value="@item.Email">@item.Email</option>
+                }
+            </select>
+            <label>Roles List</label>
+            <select name="roledata" class="form-control">
+                <option value="">-----Select Role-----</option>
+                @foreach (var item in ViewBag.roles)
+                {
+                    <option value="@item.NormalizedName">@item.NormalizedName</option>
+                }
+            </select>
+            <br />
+            <button class="btn btn-outline-success" type="submit">Assign Role</button>
+        </form>
+    </div>
+</div>

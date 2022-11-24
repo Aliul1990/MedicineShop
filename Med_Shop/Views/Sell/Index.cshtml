@@ -1,0 +1,101 @@
+﻿@model IEnumerable<DrugHouse.Models.Medicine>
+@{
+    ViewData["Title"] = "Index";
+}
+
+@using DrugHouse.Models;
+@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor _httpContextAccessor
+@{
+    List<Medicine> medList = _httpContextAccessor.HttpContext.Session.GetObject<List<Medicine>>("cart");
+    double count = 0;
+
+    if (medList != null)
+    {
+        foreach (var item in medList)
+        {
+            count += item.Quantity;
+        }
+    }
+    else
+    {
+        medList = new List<Medicine>();
+    }
+}
+
+<div class="row">
+    <div class="col">
+        <div class="row">
+            <div class="col-6">
+                <form asp-controller="Sell" asp-action="Index" method="post">
+                    <div class="input-group col-8">
+                        <input type="text" class="form-control" placeholder="Search..." name="Text" />
+                        <button class="btn btn-outline-primary ml-1" type="submit"><i class="bi bi-search"></i> Search</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row mb-2 mt-2">
+            <div class="col-10">
+                @if (TempData["msg"] != null)
+                {
+                    <h2 class="alert alert-primary text-center">@TempData["msg"]</h2>
+                }
+            </div>
+            <div class="col-2">
+
+                @if (count == 0)
+                {
+                    <button disabled="disabled" style="cursor:not-allowed" class="btn"><img src="~/Images/cart.jpg" width="32" class="img-fluid" />(@count)</button>
+                }
+                else
+                {
+                    <a asp-action="Show" asp-controller="Sell" style="text-decoration:none">
+                        <img src="~/Images/cart.jpg" width="32" class="img-fluid" />(@count)
+                    </a>
+
+                }
+            </div>
+        </div>
+        <h2>Medicine List</h2>
+
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+
+                    <th>@Html.DisplayNameFor(x => x.MedicineName)</th>
+                    <th>@Html.DisplayNameFor(x => x.ExpirationDate)</th>
+                    <th>@Html.DisplayNameFor(x => x.MRP)</th>
+                    <th>@Html.DisplayNameFor(x => x.Quantity)</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+
+                        <td>@Html.DisplayFor(x => item.MedicineName)</td>
+                        @if (item.ExpirationDate > DateTime.Now.AddMonths(1))
+                        {
+                            <td class="bg-info">@Html.DisplayFor(x => item.ExpirationDate)</td>
+                        }
+                        @if (item.ExpirationDate < DateTime.Now.AddMonths(-1))
+                        {
+                            <td class="bg-danger">@Html.DisplayFor(x => item.ExpirationDate)</td>
+                        }
+                        <td>@Html.DisplayFor(x => item.MRP)</td>
+                        <td>@Html.DisplayFor(x => item.Quantity)</td>
+                        <td>
+                            <form asp-action="AddToQuaree" asp-controller="Sell" method="post">
+                                <input type="hidden" name="mid" value="@item.MedicineID" />
+                                <input type="number" name="qty" max="@item.Quantity" value="1" style="width:80px" />
+                                <button type="submit" class="btn btn-outline-success btn-sm">Add</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

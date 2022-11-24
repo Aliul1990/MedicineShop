@@ -1,0 +1,72 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="row">
+    <div class="col">
+        <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <h4>Create a new account.</h4>
+            <hr />
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="row mb-1">
+                <label class="col-form-label col-form-label col-2 r" asp-for="Input.Name"></label>
+                <div class="col-6">
+                    <input asp-for="Input.Name" class=" form-control r" />
+                </div>
+                <div class="col-4">
+                    <span asp-validation-for="Input.Name" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-1">
+                <label class="col-form-label col-form-label col-2 r" asp-for="Input.Phone"></label>
+                <div class="col-6">
+                    <input asp-for="Input.Phone" class=" form-control r" />
+                </div>
+                <div class="col-4">
+                    <span asp-validation-for="Input.Phone" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-1">
+                <label class="col-form-label col-form-label col-2 r" asp-for="Input.Email"></label>
+                <div class="col-6">
+                    <input asp-for="Input.Email" class=" form-control r" />
+                </div>
+                <div class="col-4">
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-1">
+                <label class="col-form-label col-form-label col-2 r" asp-for="Input.Password"></label>
+                <div class="col-6">
+                    <input asp-for="Input.Password" class=" form-control r" />
+                </div>
+                <div class="col-4">
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-1">
+                <label class="col-form-label col-form-label col-2 r" asp-for="Input.ConfirmPassword"></label>
+                <div class="col-6">
+                    <input asp-for="Input.ConfirmPassword" class=" form-control r" />
+                </div>
+                <div class="col-4">
+                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-1">
+                <div class="col-10 offset-2">
+                    <button type="submit" class="btn btn-outline-primary">Register</button>
+                    <a id="login" asp-area="Identity" asp-page="/Account/Login">Already have an account? Sign In!!!</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

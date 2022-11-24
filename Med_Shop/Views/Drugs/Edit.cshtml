@@ -1,0 +1,103 @@
+﻿@model Med_Shop.Models.ViewModel.MedicineVM;
+@using DrugHouse.Models
+
+<div class="row">
+    <div class="col">
+        <div id="msg"></div>
+        @using (Html.BeginForm("Edit", "Drugs", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+
+            <h2 class="fw-bold">Edit @Model.MedicineName</h2>
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            @Html.HiddenFor(x => x.MedicineID)
+            @Html.HiddenFor(x => x.PicturePath)
+            <div class="row mb-1">
+                @Html.LabelFor(model => model.MedicineName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-6">
+                    @Html.EditorFor(model => model.MedicineName, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+                <div class="col-4">
+                    @Html.ValidationMessageFor(model => model.MedicineName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                @Html.LabelFor(model => model.TreadPrice, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-6">
+                    @Html.EditorFor(model => model.TreadPrice, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+                <div class="col-4">
+                    @Html.ValidationMessageFor(model => model.TreadPrice, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                @Html.LabelFor(model => model.MRP, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-6">
+                    @Html.EditorFor(model => model.MRP, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+                <div class="col-4">
+                    @Html.ValidationMessageFor(model => model.MRP, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row mb-1">
+                @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-6">
+                    @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+                <div class="col-4">
+                    @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            @Html.HiddenFor(x => x.StoredDate);
+            @Html.HiddenFor(x => x.ExpirationDate);
+
+            <div class="row mb-1">
+                @Html.LabelFor(x => x.GenericID, new { @class = "col-form-label col-form-label col-2 r" })
+                <div class="col-6">
+                    <select class="form-control" asp-for="GenericID" asp-items="@(new SelectList(ViewBag.Gen, "GenericID", "GenericName"))">
+                    </select>
+                </div>
+                <div class="col-4">
+                    @Html.ValidationMessageFor(x => x.GenericID, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row mb-1">
+                @Html.LabelFor(x => x.ProviderID, new { @class = "col-form-label col-form-label col-2 r" })
+                <div class="col-6">
+                    <select class="form-control" asp-for="ProviderID" asp-items="@(new SelectList(ViewBag.Prov, "ProviderID", "ProviderName"))">
+                    </select>
+                </div>
+                <div class="col-4">
+                    @Html.ValidationMessageFor(x => x.ProviderID, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                @Html.LabelFor(x => x.Picture, new { @class = "col-form-label col-form-label col-2 r" })
+                <div class="col-6">
+                    @Html.TextBoxFor(x => x.Picture, new { @class = "form-control", Type = "file" })
+                    @{
+                        var photopath = "~/Images/" + (Model.PicturePath ?? "NoImage.jpg");
+                    }
+                    <img src="@photopath" asp-append-version="true" height="60" width="50" />
+                </div>
+                <div class="col-4">
+                    @Html.ValidationMessageFor(x => x.Picture, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <div class="col-10 offset-2">
+                    <button type="submit" title="Update" class="btn btn-outline-success"><i class="bi bi-pencil "></i> Update</button>
+                </div>
+            </div>
+            <div id="msg">
+            </div>
+        }
+    </div>
+</div>
+<div class="d-flex justify-content-md-start">
+    <a href="@Url.Action("Index","Drugs")" class="btn btn-link btn-sm"><i class="bi bi-arrow-left"></i> Back to list</a>
+</div>

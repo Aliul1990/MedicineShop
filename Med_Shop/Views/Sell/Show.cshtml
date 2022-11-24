@@ -1,0 +1,93 @@
+﻿@model List<Med_Shop.Models.ViewModel.SellVM>
+@using DrugHouse.Models
+@using Med_Shop.Models
+@{
+    ViewData["Title"] = "ShowCart";
+}
+@{
+    double subtotal = 0;
+    double total = 0;
+}
+<h1>ShowCart</h1>
+<form asp-action="SellVM" asp-controller="Sell" method="post">
+    <div class="border border-info p-2">
+        @if (Model != null)
+        {
+            <div class="row mb-2">
+                <div class="col-10">
+                    <h2>@TempData["msg"]</h2>
+                </div>
+            </div>
+            <table class="table table-bordered  table-sm">
+                <thead>
+                    <tr>
+                        <th>MedicineName</th>
+                        <th>MRP</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Count(); i++)
+                    {
+                        <tr>
+                            @Html.HiddenFor(x => x[i].MedicineID)
+                            @Html.HiddenFor(x => x[i].MedicineName)
+                            @Html.HiddenFor(x => x[i].MRP)
+                            @Html.HiddenFor(x => x[i].Quantity)
+                            @Html.HiddenFor(x => x[i].Price)
+                            <td>@Html.DisplayFor(x => x[i].MedicineName)</td>
+                            <td>@Html.DisplayFor(x => x[i].MRP)</td>
+                            <td>@Html.DisplayFor(x => x[i].Quantity) </td>
+                            <td>@Html.DisplayFor(x => x[i].Price)</td>
+
+                            @{
+                                //subtotal = item.Quantity * (double)item.MRP;
+                                total += Model[i].Price;
+                            }
+                            <td>
+                                <a asp-action="RemoveFromCart" asp-controller="Sell" class="btn btn-outline-danger" asp-route-id="@Model[i].MedicineID"><i class="bi bi-trash"></i> Remove</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3" class="font-weight-bold">Total Price(TK)</td>
+                        <td colspan="2" class="font-weight-bold">@total</td>
+                    </tr>
+                </tfoot>
+            </table>
+        }
+        else
+        {
+            <div class="row">
+                <div class="col-6">
+                    <h2 class="text-center text-danger">No data found</h2>
+                </div>
+                <div class="col-2">
+                    <a asp-action="Index" asp-controller="Sell" class="btn btn-outline-primary"><i class="bi bi-arrow-left"></i> Back to shop</a>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="d-flex justify-content-end ">
+        @if (total == 0)
+        {
+            <button disabled="disabled" style="cursor:not-allowed" class="btn">Confirm Sell</button>
+        }
+        else
+        {
+            @*<a asp-action="Sell" asp-controller="Sell" class="btn btn-outline-success">Confirm Sell</a>*@
+            <button type="submit" class="btn btn-outline-success">Confirm Sell</button>
+
+        }
+    </div>
+</form>
+<br />
+<div class="row mb-2">
+    <div class="col-10">
+        <a asp-action="Index" asp-controller="Sell" class="btn btn-outline-primary">Continue Adding</a>
+    </div>
+</div>

@@ -1,0 +1,28 @@
+﻿@model DrugHouse.Models.Generic
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="fw-bold">Are you sure you want to delete @Model.GenericName?</h2>
+<div>
+    <h4>Generic</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.GenericName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.GenericName)
+        </dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="GenericID" />
+        <button type="submit" class="btn offset-2 btn-outline-danger" title="Delete" value="Delete"><i class="bi bi-trash"></i> Delete</button>
+    </form>
+</div>
+<div>
+    <a asp-action="Index" asp-controller="Generic" title="Back to List" class="card-link float-sm-start"><i class="mt-2 bi-arrow-left"></i> Back to list</a>
+</div>

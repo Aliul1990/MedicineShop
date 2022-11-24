@@ -1,0 +1,82 @@
+﻿@model DrugHouse.Models.Medicine
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2 class="fw-bold">Are you sure you want to delete @Model.MedicineName?</h2>
+<div>
+    <div class="row">
+        <div class="col">
+
+            <div class="form-group mb-1 row">
+                <dt class="col-2">
+                    @Html.DisplayNameFor(model => model.MedicineName)
+                </dt>
+                <dd class="col-4">
+                    @Html.DisplayFor(model => model.MedicineName)
+                </dd>
+            </div>
+            <div class="form-group mb-1 row">
+                <dt class="col-2">
+                    @Html.DisplayNameFor(model => model.TreadPrice)
+                </dt>
+                <dd class="col-4">
+                    @Html.DisplayFor(model => model.TreadPrice)
+                </dd>
+            </div>
+            <div class="form-group mb-1 row">
+                <dt class="col-2">
+                    @Html.DisplayNameFor(model => model.MRP)
+                </dt>
+                <dd class="col-4">
+                    @Html.DisplayFor(model => model.MRP)
+                </dd>
+            </div>
+            <div class="form-group mb-1 row">
+                <dt class="col-2">
+                    @Html.DisplayNameFor(model => model.Quantity)
+                </dt>
+                <dd class="col-4">
+                    @Html.DisplayFor(model => model.Quantity)
+                </dd>
+            </div>
+            <div class="form-group mb-1 row">
+                <dt class="col-2">
+                    @Html.DisplayNameFor(model => model.StoredDate)
+                </dt>
+                <dd class="col-4">
+                    @Html.DisplayFor(model => model.StoredDate)
+                </dd>
+            </div>
+            <div class="form-group mb-1 row">
+                <dt class="col-2">
+                    @Html.DisplayNameFor(model => model.ExpirationDate)
+                </dt>
+                <dd class="col-4">
+                    @Html.DisplayFor(model => model.ExpirationDate)
+                </dd>
+            </div>
+            <div class="form-group mb-1 row">
+                <dt class="col-2">
+                    @Html.DisplayNameFor(model => model.PicturePath)
+                </dt>
+                <dd class="col-4">
+                    @{
+                        var photopath = "~/Images/" + (Model.PicturePath ?? "NoImage.jpg");
+                    }
+                    <img src="@photopath" asp-append-version="true" height="60" width="50" />
+                </dd>
+            </div>
+        </div>
+    </div>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="MedicineID" />
+        @*<input type="submit" title="Delete" value="Delete" class="btn offset-2 btn-outline-danger"  />*@
+        <button type="submit" class="btn offset-2 btn-outline-danger" title="Delete" value="Delete"><i class="bi bi-trash"></i> Delete</button>
+    </form>
+</div>
+<div>
+    <a asp-action="Index" asp-controller="Drugs" title="Back to List" class="card-link float-sm-start"><i class="mt-2 bi-arrow-left"></i> Back to list</a>
+</div>

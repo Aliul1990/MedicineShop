@@ -1,0 +1,82 @@
+﻿@model Med_Shop.Models.ViewModel.MedicineVM;
+
+<div class="row mt-2">
+    <div class="col">
+        <form asp-controller="Drugs" asp-action="Create" enctype="multipart/form-data" method="post">
+            <div class="row mb-1">
+                @Html.LabelFor(x => x.MedicineName, new { @class = "col-form-label col-form-label col-2 r" })
+                <div class="col-6">
+                    @Html.TextBoxFor(x => x.MedicineName, new { @class = "form-control form-control r" })
+                </div>
+                <div class="col-4">
+                    @Html.ValidationMessageFor(x => x.MedicineName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row mb-1">
+                @Html.LabelFor(x => x.TreadPrice, new { @class = "col-form-label col-form-label col-2 r" })
+                <div class="col-6">
+                    @Html.TextBoxFor(x => x.TreadPrice, new { @class = "form-control form-control r" })
+                </div>
+                <div class="col-4">
+                    @Html.ValidationMessageFor(x => x.TreadPrice, "", new { @class = "text-danger", Type = "money" })
+                </div>
+            </div>
+            <div class="row mb-1">
+                @Html.LabelFor(x => x.MRP, new { @class = "col-form-label col-form-label col-2 r" })
+                <div class="col-6">
+                    @Html.TextBoxFor(x => x.MRP, new { @class = "form-control", Type = "money" })
+                </div>
+                <div class="col-4">
+                    @Html.ValidationMessageFor(x => x.MRP, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row mb-1">
+                @Html.LabelFor(x => x.Quantity, new { @class = "col-form-label col-form-label col-2 r" })
+                <div class="col-6">
+                    @Html.TextBoxFor(x => x.Quantity, new { @class = "form-control" })
+                </div>
+                <div class="col-4">
+                    @Html.ValidationMessageFor(x => x.Quantity, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row mb-1">
+                @Html.LabelFor(x => x.GenericID, new { @class = "col-form-label col-form-label col-2 r" })
+                <div class="col-6">
+                    <select class="form-control" asp-for="GenericID" asp-items="@(new SelectList( ViewBag.Gen,"GenericID","GenericName"))">
+                    </select>
+                </div>
+                <div class="col-4">
+                    @Html.ValidationMessageFor(x => x.GenericID, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row mb-1">
+                @Html.LabelFor(x => x.ProviderID, new { @class = "col-form-label col-form-label col-2 r" })
+                <div class="col-6">
+                    <select class="form-control" asp-for="ProviderID" asp-items="@(new SelectList( ViewBag.Prov ,"ProviderID","ProviderName"))">
+                    </select>
+                </div>
+                <div class="col-4">
+                    @Html.ValidationMessageFor(x => x.ProviderID, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row mb-1">
+                @Html.LabelFor(x => x.Picture, new { @class = "col-form-label col-form-label col-2 r" })
+                <div class="col-6">
+                    @Html.TextBoxFor(x => x.Picture, new { @class = "form-control", Type = "file" })
+                </div>
+                <div class="col-4">
+                    @Html.ValidationMessageFor(x => x.Picture, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="row mb-1">
+                <div class="col-10 offset-2">
+                    <button type="submit" title="Save" class="btn btn-outline-success"><i class="bi bi-save"></i> Save</button>
+                </div>
+            </div>
+            <div id="msg">
+            </div>
+        </form>
+        <a href="@Url.Action("Index","Drugs")" title="Back To List" class="card-link float-sm-start"><i class="bi bi-arrow-left"></i> Back to list</a>
+    </div>
+</div>

@@ -1,0 +1,64 @@
+﻿<div class="row">
+    <div class="col-md-12 clearfix mb-0">
+        <div class="row">
+            <div class="col-6">
+                <form asp-controller="Report" asp-action="Index" method="post">
+                    <div class="input-group col-8 form-group">
+                        <input type="date" class="form-control" placeholder="Search..." name="date" />
+                        <button class="btn btn-outline-primary ml-1" type="submit"><i class="bi bi-search"></i> Search</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-6">
+                <form asp-controller="Report" asp-action="MonthlyReport" method="post">
+                    <div class="input-group col-8 form-group">
+                        @*<input type="month" class="form-control mr-2" placeholder="Month..." name="_month" />*@
+                        <select name="_month" class="form-control mr-2 ">
+                            <option value="" disabled hidden selected>Month....</option>
+                            <option value="1">January</option>
+                            <option value="2">February</option>
+                            <option value="3">March</option>
+                            <option value="4">April</option>
+                            <option value="5">May</option>
+                            <option value="6">June</option>
+                            <option value="7">July</option>
+                            <option value="8">August</option>
+                            <option value="9">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
+                        </select>
+                        <select name="_year" class="form-control">
+                            <option value="" disabled hidden selected>Year....</option>
+                            <option value="@DateTime.Now.Year">@DateTime.Now.Year</option>
+                            <option value="@(DateTime.Now.Year-1)">@(DateTime.Now.Year-1)</option>
+                            <option value="@(DateTime.Now.Year-2)">@(DateTime.Now.Year-2)</option>
+                            <option value="@(DateTime.Now.Year-3)">@(DateTime.Now.Year-3)</option>
+                            <option value="@(DateTime.Now.Year-4)">@(DateTime.Now.Year-4)</option>
+                            <option value="@(DateTime.Now.Year-5)">@(DateTime.Now.Year-5)</option>
+                        </select>
+                        <button class="btn btn-outline-primary ml-1" type="submit"><i class="bi bi-search"></i> Search</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="d-flex offset-4 text-success fw-bold">@ViewData["Date"]</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <h2>Expences</h2>
+                @foreach (var item in ViewData["Bills"] as IEnumerable<Med_Shop.Models.ViewModel.SalesVM>)
+                {
+                    <h2>@Html.DisplayFor(x => item.Date)</h2>
+                    <h2>@Html.DisplayFor(x => item.Days)</h2>
+                }
+            </div>
+            <div class="col-6">
+                <h2>Bills</h2>
+            </div>
+        </div>
+    </div>
+</div>

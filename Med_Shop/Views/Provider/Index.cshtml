@@ -1,0 +1,101 @@
+﻿@model PaginatedList<DrugHouse.Models.Provider>
+
+@{
+    ViewBag.Title = "Index";
+    int cp = Model.PageIndex;
+    int tp = Model.TotalPages;
+    var next = Model.NextPage ? "" : "disable";
+    var prev = Model.PreviousPage ? "" : "disable";
+    int i = (cp - 1) * ViewBag.pSize + 1;
+}
+
+<div class="row">
+    <div class="col">
+        <h2>Provider List</h2>
+        <div class="row">
+            <div class="col-6">
+                <form asp-controller="Provider" asp-action="Index" method="post">
+                    <div class="input-group col-8">
+                        <input type="text" class="form-control" placeholder="Search..." name="Text" />
+                        <button class="btn btn-outline-primary ml-1" title="Search" type="submit"><i class="bi bi-search"></i> Search</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-6 d-flex justify-content-end">
+                <a asp-action="Create" asp-controller="Provider" title="Create New" class="btn btn-outline-primary"><i class="bi bi-plus"></i> ADD New</a>
+            </div>
+        </div>
+        <table class="table table-bordered table-striped table-hover table-sm">
+            <thead class="table-light ">
+                <tr>
+                    <th>
+                        Total @ViewBag.Count Data Found
+                    </th>
+                </tr>
+                <tr>
+                    <th>Sl No</th>
+                    <th>
+                        <a asp-action="Index" asp-controller="Provider" asp-route-ShortBy="@ViewBag.ShortNameParam" asp-route-Text="@ViewBag.sword" class="text-decoration-none fw-bold text-black">Provider Name</a>
+                    </th>
+                    <th> @Html.DisplayNameFor(x => x.First().ContactInfo)</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Select((x, i) => new { Data = x, Index = i + 1 }))
+                {
+                    <tr>
+                        <td>@i</td>
+                        <td>@item.Data.ProviderName</td>
+                        <td>@item.Data.ContactInfo</td>
+                        <td>
+                            <a title="Edit this item" href="@Url.Action("Edit","Provider",new { id=item.Data.ProviderID})" class="btn btn-outline-success btn-sm rounded-circle"><i class="bi bi-pencil"></i></a>
+                            <a title="Delete this item" href="@Url.Action("Delete","Provider",new { id=item.Data.ProviderID})" class="btn btn-outline-danger btn-sm rounded-circle"><i class="bi bi-trash"></i></a>
+                        </td>
+                    </tr>
+                    i++;
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td>
+                        Page @(Model.TotalPages < Model.PageIndex ? 0 : Model.PageIndex)
+                        Outof @Model.TotalPages
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+        <ul class="pagination">
+            <li class="">
+                <a asp-action="Index" asp-route-page="1" class="btn btn-info">First</a>
+            </li>
+            <li class="page-item @prev">
+                <a asp-action="Index" asp-route-page="@(cp-1)" class="btn btn-success ml-1">Prev</a>
+            </li>
+            @for (int k = 1; k <= Model.TotalPages; k++)
+            {
+                if (k >= cp - 5 && k <= cp + 5)
+                {
+                    if (k == cp)
+                    {
+                        <li class="page-item @(k==cp?"active":"")">
+                            <a asp-action="Index" asp-route-page="@k" class="btn btn-warning ml-1">@k</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="page-item @(k==cp?"active":"")">
+                            <a asp-action="Index" asp-route-page="@k" class="btn btn-secondary ml-1">@k</a>
+                        </li>
+                    }
+                }
+            }
+            <li class="page-item @next">
+                <a asp-action="Index" asp-route-page="@(cp+1)" class="btn btn-success ml-1">Next</a>
+            </li>
+            <li class="">
+                <a asp-action="Index" asp-route-page="@Model.TotalPages" class="btn btn-info ml-1">Last</a>
+            </li>
+        </ul>
+    </div>
+</div>
